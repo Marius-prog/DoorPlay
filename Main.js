@@ -17,11 +17,12 @@ let closedDoorPath = "https://s3.amazonaws.com/codecademy-content/projects/chore
 
 let numClosedDoors = 3;
 
-// let currentlyPlaying = true;
+let currentlyPlaying = true;
 
 let openDoor1;
 let openDoor2;
 let openDoor3;
+
 
 const isBot = (door) => {
     if (door.src === botDoorPath) {
@@ -60,7 +61,7 @@ const randomChoreDoorGenerator = () => {
         openDoor1 = beachDoorPath;
         openDoor3 = spaceDoorPath;
     } else {
-        (choreDoor === 2)
+        (choreDoore === 2)
         openDoor3 = botDoorPath;
         openDoor1 = beachDoorPath;
         openDoor2 = spaceDoorPath;
@@ -69,22 +70,38 @@ const randomChoreDoorGenerator = () => {
 }
 
 door1.onclick = () => {
-    if (!isClicked(doorImage1)) {
+    if (currentlyPlaying && !isClicked(doorImage1)) {
         doorImage1.src = openDoor1;
         playDoor(door1);
     }
 }
 door2.onclick = () => {
-    if (!isClicked(doorImage2)) {
+    if (currentlyPlaying && !isClicked(doorImage2)) {
         doorImage2.src = openDoor2;
         playDoor(door2);
     }
 }
 door3.onclick = () => {
-    if (!isClicked(doorImage3)) {
+    if (currentlyPlaying && !isClicked(doorImage3)) {
         doorImage3.src = openDoor3;
         playDoor(door3);
     }
+}
+
+startButton.onclick = () => {
+    if (!currentlyPlaying) {
+        startRound();
+    }
+}
+
+const startRound = () => {
+    door1.src = closedDoorPath;
+    door2.src = closedDoorPath;
+    door3.src = closedDoorPath;
+    numClosedDoors = 3;
+    currentlyPlaying = true;
+    startButton.innerHTML = 'Good luck !';
+    randomChoreDoorGenerator();
 }
 
 const gameOver = (status) => {
@@ -93,6 +110,7 @@ const gameOver = (status) => {
     } else {
         startButton.innerHTML = 'Game over! Play again?'
     }
+    currentlyPlaying = false;
 }
 
-randomChoreDoorGenerator();
+startRound();
